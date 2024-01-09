@@ -6,7 +6,7 @@
 __authors__ = ["Sampreet Kalita"]
 __toolbox__ = 'qom-v1.0.1'
 __created__ = "2020-06-03"
-__updated__ = "2023-10-10"
+__updated__ = "2024-01-09"
 
 # dependencies
 import numpy as np

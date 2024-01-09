@@ -3,10 +3,10 @@
  
 """Module to simulate membrane-in-the-middle systems."""
 
-__authors__ = ['Sampreet Kalita']
+__authors__ = ["Sampreet Kalita"]
 __toolbox__ = 'qom-v1.0.1'
-__created__ = '2022-04-01'
-__updated__ = '2024-01-09'
+__created__ = "2022-04-01"
+__updated__ = "2024-01-09"
 
 # dependencies
 import numpy as np
