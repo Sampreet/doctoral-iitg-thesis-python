@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Class to simulate a Bose-Einstein condensate systems."""
+"""Class to simulate Bose-Einstein condensate systems."""
 
 __authors__ = ["Sampreet Kalita"]
 __toolbox__ = 'qom-v1.0.1'
 __created__ = "2020-12-21"
-__updated__ = "2024-01-09"
+__updated__ = "2024-01-18"
 
 # dependencies
 from sympy import Symbol
@@ -26,30 +26,30 @@ class BEC_10(BaseSystem):
         ================    ====================================================
         key                 meaning
         ================    ====================================================
-        Delta_tilde         (float) laser detuning :math:`\tilde{\Delta}` with normalization determined by the value of ``t_Delta_norm`` and offset determined by the value of ``t_Delta_offset``. Default is :math:`-1.0` units with the value of ``t_Delta_norm`` set to "Omega_m" and ``t_Delta_offset`` set to "zero".
-        delta               (float) probe detuning :math:`\delta` with normalization determined by the value of ``t_delta_norm`` and offset determined by the value of ``t_delta_offset``. Default is :math:`0.0` units with the value of ``t_delta_norm`` set to "Omega_m" and ``t_delta_offset`` set to "Omega_m".
-        G                   (float) sidemode coupling constant :math:`G` in Hertz. Default is :math:`2 \pi \times 10^{3}` Hz.
-        g_tilde_norm        (float) normalized atom-atom interaction strength :math:`4 I N \tilde{g} / \hbar`. Default is :math:`0.0`.
-        gamma_m             (float) mechanical decay rate :math:`\gamma_{m}` in Hertz. Default is :math:`2 \pi \times 0.8` Hz.
-        gamma_o             (float) optical decay rate :math:`\gamma_{o}` in Hertz. Default is :math:`2 \pi \times 10^{3}` Hz.
-        k                   (float) multiplier for subtractive detuning :math:`k`. Default is :math:`1`.
-        L_p                 (float) winding number :math:`L_{p}`. Default is :math:`1`.
-        l                   (float) OAM number :math:`l`. Default is :math:`20`.
-        lambda_lc           (float) wavelength of the control laser :math:`\lambda_{lc}` in metres. Default is :math:`589 \times 10^{-9}` m.
-        m                   (float) mass of the atom :math:`m` in amu. Default is :math:`23` amu.
-        mu                  (float) cavity coupling parameter :math:`\mu`. Default is :math:`0.5`.
-        N                   (float) number of BEC atoms :math:`N`. Default is :math:`10^{4}`.
-        P_lc                (float) power of the control laser :math:`P_{lc}` normalized by the critical power :math:`P_{lp_{cr}}` if the value of ``t_P_lc_norm`` is "cr", otherwise the fixed value in Watts. Default is :math:`1 \times 10^{-15}` Watts with the value of ``t_P_lc_norm`` set to "none".
-        P_lp_norm           (float) power of the probe laser :math:`P_{lp}` normalized by :math:`P_{lc}`. Default is :math:`0.01`.
-        R                   (float) radius of the ring :math:`R` in metres. Default is :math:`12 \times 10^{-6}` m.
-        t_approx            (str) type of approximation. Options are "del" for approximation on delta, "res" for resolved sideband approximation, "del-res" for both and "none" (fallback). Default is "none".
-        t_Delta_norm        (str) type of normalization for the laser detuning. Options are "cr" for critical detuning :math:`\tilde{Delta}_{cr}`, "gamma_m" for sidemode decay rate, "gamma_o" for optical decay rate, "Omega_c" for first sidemode, "Omega_d" for second sidemode, "Omega_m" for additive detuning, "Omega_n" for subtractive detuning, otherwise :math:`1.0` (fallback). Default is "none".
-        t_Delta_offset      (str) type of offset for the laser detuning. Options are "cr" for critical detuning, "gamma_m" for sidemode decay rate, "gamma_o" for optical decay rate, "Omega_c" or "-Omega_c" for first sidemode, "Omega_d" or "-Omega_d" for second sidemode, "Omega_m" or "-Omega_m" for additive detuning, "Omega_n" or "-Omega_n" for subtractive detuning, otherwise no offset (fallback). Default is "zero".
-        t_delta_norm        (str) type of normalization for the probe detuning. Options are "cr" for critical detuning :math:`\tilde{Delta}_{cr}`, "Delta" for the same value as :math:`\tilde{\Delta}`, "gamma_m" for sidemode decay rate, "gamma_o" for optical decay rate, "Omega_c" for first sidemode, "Omega_d" for second sidemode, "Omega_m" for additive detuning, "Omega_n" for subtractive detuning, otherwise :math:`1.0` (fallback). Default is "none".
-        t_delta_offset      (str) type of offset for the probe detuning. Options are "cr" for critical detuning, "Delta" for the same value as :math:`\tilde{\Delta}`, "gamma_m" for sidemode decay rate, "gamma_o" for optical decay rate, "Omega_c" or "-Omega_c" for first sidemode, "Omega_d" or "-Omega_d" for second sidemode, "Omega_m" or "-Omega_m" for additive detuning, "Omega_n" or "-Omega_n" for subtractive detuning, otherwise offset (fallback). Default is "zero".
-        t_line              (str) type of scattering line. Options are "s" or "S" (fallback) for Stokes and "as" or "aS" for anti-Stokes. Default is "s".
-        t_oss_method        (str) type of method to use for calculating the optical steady state. Options are "basic" which ignores the coefficient of ``N_o`` (fallback) and "cubic" to solve the cubic equation. Default is "cubic".
-        t_P_lc_norm         (str) type of normalization for :math:`P_{lc}`. Options are "cr" for critical power, otherwise :math:`1.0` (fallback). Default is "none".
+        Delta_tilde         (*float*) laser detuning :math:`\tilde{\Delta}` with normalization determined by the value of ``t_Delta_norm`` and offset determined by the value of ``t_Delta_offset``. Default is :math:`-1.0` units with the value of ``t_Delta_norm`` set to ``'Omega_m'`` and ``t_Delta_offset`` set to ``'zero'``.
+        delta               (*float*) probe detuning :math:`\delta` with normalization determined by the value of ``t_delta_norm`` and offset determined by the value of ``t_delta_offset``. Default is :math:`0.0` units with the value of ``t_delta_norm`` set to ``'Omega_m'`` and ``t_delta_offset`` set to ``'Omega_m'``.
+        G                   (*float*) sidemode coupling constant :math:`G` in Hertz. Default is :math:`2 \pi \times 10^{3}` Hz.
+        g_tilde_norm        (*float*) normalized atom-atom interaction strength :math:`4 I N \tilde{g} / \hbar`. Default is :math:`0.0`.
+        gamma_m             (*float*) mechanical decay rate :math:`\gamma_{m}` in Hertz. Default is :math:`2 \pi \times 0.8` Hz.
+        gamma_o             (*float*) optical decay rate :math:`\gamma_{o}` in Hertz. Default is :math:`2 \pi \times 10^{3}` Hz.
+        k                   (*float*) multiplier for subtractive detuning :math:`k`. Default is :math:`1`.
+        L_p                 (*float*) winding number :math:`L_{p}`. Default is :math:`1`.
+        l                   (*float*) OAM number :math:`l`. Default is :math:`20`.
+        lambda_lc           (*float*) wavelength of the control laser :math:`\lambda_{lc}` in metres. Default is :math:`589 \times 10^{-9}` m.
+        m                   (*float*) mass of the atom :math:`m` in amu. Default is :math:`23` amu.
+        mu                  (*float*) cavity coupling parameter :math:`\mu`. Default is :math:`0.5`.
+        N                   (*float*) number of BEC atoms :math:`N`. Default is :math:`10^{4}`.
+        P_lc                (*float*) power of the control laser :math:`P_{lc}` normalized by the critical power :math:`P_{lp_{cr}}` if the value of ``t_P_lc_norm`` is ``'cr'``, otherwise the fixed value in Watts. Default is :math:`1 \times 10^{-15}` Watts with the value of ``t_P_lc_norm`` set to ``'none'``.
+        P_lp_norm           (*float*) power of the probe laser :math:`P_{lp}` normalized by :math:`P_{lc}`. Default is :math:`0.01`.
+        R                   (*float*) radius of the ring :math:`R` in metres. Default is :math:`12 \times 10^{-6}` m.
+        t_approx            (*str*) type of approximation. Options are ``'del'`` for approximation on delta, ``'res'`` for resolved sideband approximation, ``'del-res'`` for both and ``'none'`` (fallback). Default is ``'none'``.
+        t_Delta_norm        (*str*) type of normalization for the laser detuning. Options are ``'cr'`` for critical detuning :math:`\tilde{Delta}_{cr}`, ``'gamma_m'`` for sidemode decay rate, ``'gamma_o'`` for optical decay rate, ``'Omega_c'`` for first sidemode, ``'Omega_d'`` for second sidemode, ``'Omega_m'`` for additive detuning, ``'Omega_n'`` for subtractive detuning, otherwise :math:`1.0` (fallback). Default is ``'none'``.
+        t_Delta_offset      (*str*) type of offset for the laser detuning. Options are ``'cr'`` for critical detuning, ``'gamma_m'`` for sidemode decay rate, ``'gamma_o'`` for optical decay rate, ``'Omega_c'`` or ``'-Omega_c'`` for first sidemode, ``'Omega_d'`` or ``'-Omega_d'`` for second sidemode, ``'Omega_m'`` or ``'-Omega_m'`` for additive detuning, ``'Omega_n'`` or ``'-Omega_n'`` for subtractive detuning, otherwise no offset (fallback). Default is ``'zero'``.
+        t_delta_norm        (*str*) type of normalization for the probe detuning. Options are ``'cr'`` for critical detuning :math:`\tilde{Delta}_{cr}`, ``'Delta'`` for the same value as :math:`\tilde{\Delta}`, ``'gamma_m'`` for sidemode decay rate, ``'gamma_o'`` for optical decay rate, ``'Omega_c'`` for first sidemode, ``'Omega_d'`` for second sidemode, ``'Omega_m'`` for additive detuning, ``'Omega_n'`` for subtractive detuning, otherwise :math:`1.0` (fallback). Default is ``'none'``.
+        t_delta_offset      (*str*) type of offset for the probe detuning. Options are ``'cr'`` for critical detuning, ``'Delta'`` for the same value as :math:`\tilde{\Delta}`, ``'gamma_m'`` for sidemode decay rate, ``'gamma_o'`` for optical decay rate, ``'Omega_c'`` or ``'-Omega_c'`` for first sidemode, ``'Omega_d'`` or ``'-Omega_d'`` for second sidemode, ``'Omega_m'`` or ``'-Omega_m'`` for additive detuning, ``'Omega_n'`` or ``'-Omega_n'`` for subtractive detuning, otherwise offset (fallback). Default is ``'zero'``.
+        t_line              (*str*) type of scattering line. Options are ``'s'`` or ``'S'`` (fallback) for Stokes and ``'as'`` or ``'aS'`` for anti-Stokes. Default is ``'s'``.
+        t_oss_method        (*str*) type of method to use for calculating the optical steady state. Options are ``'basic'`` which ignores the coefficient of ``N_o`` (fallback) and ``'cubic'`` to solve the cubic equation. Default is ``'cubic'``.
+        t_P_lc_norm         (*str*) type of normalization for :math:`P_{lc}`. Options are ``'cr'`` for critical power, otherwise :math:`1.0` (fallback). Default is ``'none'``.
         ================    ====================================================
     cb_update : callable, optional
         Callback function to update status and progress, formatted as ``cb_update(status, progress, reset)``, where ``status`` is a string, ``progress`` is an integer and ``reset`` is a boolean.
@@ -89,7 +89,7 @@ class BEC_10(BaseSystem):
         # initialize super class
         super().__init__(
             params=params,
-            name='BEC_00',
+            name='BEC_10',
             desc="BEC-OM System with Control and Probe Lasers",
             num_modes=3,
             cb_update=cb_update
@@ -100,16 +100,16 @@ class BEC_10(BaseSystem):
 
         Parameters
         ----------
-        modes : list
-            Values of the modes.
-        params : list
-            Constant parameters.
+        modes : numpy.ndarray
+            Classical modes.
+        c : numpy.ndarray
+            Derived constants and controls.
         t : float
-            Time at which the rates are calculated.
+            Time at which the values are calculated.
         
         Returns
         -------
-        A : list
+        A : numpy.ndarray
             Drift matrix.
         """
 
@@ -127,10 +127,7 @@ class BEC_10(BaseSystem):
 
         # derived frequencies
         Delta = Delta_tilde - 2 * G * np.real(np.sum(betas))
-
-        # drift matrix
-        if self.A is None or np.shape(self.A) != (6, 6):
-            self.A = np.zeros([6, 6], dtype=np.float_)
+        
         # optical mode
         self.A[0][0] = - gamma_o / 2
         self.A[0][1] = - Delta
@@ -164,8 +161,8 @@ class BEC_10(BaseSystem):
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
 
         Returns
         -------
@@ -190,22 +187,22 @@ class BEC_10(BaseSystem):
 
         return absorp
 
-    def get_coeffs(self, modes, c, t=None):
-        """Method to obtain the coefficients of the characteristic equation.
+    def get_coeffs_A(self, modes, c, t=None):
+        """Method to obtain the coefficients of the characteristic equation of the drift matrix.
 
         Parameters
         ----------
-        modes : list
-            Values of the modes.
-        params : list
-            Constants parameters.
+        modes : numpy.ndarray
+            Classical modes.
+        c : numpy.ndarray
+            Derived constants and controls.
         t : float
-            Time at which the coefficients are calculated.
+            Time at which the values are calculated.
 
         Returns
         -------
-        coeffs : int
-            Coefficients of the characteristic equation.
+        coeffs : list
+            Coefficients of the characteristic equation of the drift matrix.
         """
 
         # extract frequently used variables
@@ -251,14 +248,42 @@ class BEC_10(BaseSystem):
         # coeffs.append(A_2 * D_2 + 2 * A_mathcal * Delta * G**2 * N_o * (omega_tildes[0] - omega_tildes[1]) + 2 * Delta * G**2 * N_o * (Omegas[0]**2 * omega_tildes[1] + Omegas[1]**2 * omega_tildes[0]))
 
         return coeffs
-
-    def get_cooperativity(self, c):
-        """Method to obtain the cooperativity of the system.
+    
+    def get_coeffs_N_o(self, c):
+        """Method to obtain coefficients of the polynomial in mean optical occupancy.
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
+        
+        Returns 
+        -------
+        coeffs : numpy.ndarray
+            Coefficients of the polynomial in mean optical occupancy.
+        """
+
+        # frequently used variables
+        A_l_norm, Delta_0_norm, kappa_norm, C = self.get_params_steady_state(
+            c=c
+        )
+        
+        # get coefficients
+        coeffs = np.zeros(2 * self.num_modes, dtype=np.float_)
+        coeffs[0] = 4.0 * C**2
+        coeffs[1] = 8.0 * C * Delta_0_norm
+        coeffs[2] = 4.0 * Delta_0_norm**2 + kappa_norm**2
+        coeffs[3] = - 4.0 * np.real(np.conjugate(A_l_norm) * A_l_norm)
+
+        return coeffs
+
+    def get_cooperativity(self, c):
+        """Method to obtain the cooperativity.
+        
+        Parameters
+        ----------
+        c : numpy.ndarray
+            Derived constants and controls.
             
         Returns
         -------
@@ -275,7 +300,9 @@ class BEC_10(BaseSystem):
         t_oss_method = self.params['t_oss_method']
 
         # get mean occupancy amplitude
-        alpha_ss, _ = self.get_mean_optical_amplitudes(method='cubic' if 'cubic' in t_oss_method else 'basic')
+        alpha_ss = self.get_modes_steady_state(
+            c=c
+        )[:, 0]
         alpha_s = alpha_ss[0]
 
         # # display steady-state values
@@ -289,13 +316,47 @@ class BEC_10(BaseSystem):
 
         return C_mathcal
 
+    def get_D(self, modes, corrs, c, t):
+        """Method to obtain the noise matrix.
+        
+        Parameters
+        ----------
+        modes : numpy.ndarray
+            Classical modes.
+        corrs : numpy.ndarray
+            Quantum correlations.
+        c : numpy.ndarray
+            Derived constants and controls.
+        t : float
+            Time at which the values are calculated.
+        
+        Returns
+        -------
+        D : numpy.ndarray
+            Noise matrix.
+        """
+
+        # extract frequently used variables
+        eta_lp = c[3]
+        gamma_m = c[6]
+        gamma_o = c[7]
+        mu = c[8]
+        
+        # update noise matrix
+        self.D[0][0] = eta_lp + mu * gamma_o / 2
+        self.D[1][1] = eta_lp + mu * gamma_o / 2
+        self.D[3][3] = gamma_m
+        self.D[5][5] = gamma_m
+
+        return self.D
+    
     def get_deltas(self, c):
         """Method to obtain the complex solution of the denominator of the output amplitudes.
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
         
         Returns
         -------
@@ -362,8 +423,8 @@ class BEC_10(BaseSystem):
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
 
         Returns
         -------
@@ -393,8 +454,8 @@ class BEC_10(BaseSystem):
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
         
         Returns
         -------
@@ -438,8 +499,8 @@ class BEC_10(BaseSystem):
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
             
         Returns
         -------
@@ -464,7 +525,7 @@ class BEC_10(BaseSystem):
         return fwhm
 
     def get_ivc(self):
-        r"""Method to obtain the initial values and constants required for the IVP.
+        r"""Method to obtain the initial values of the modes, correlations and derived constants and controls.
         
         Returns
         -------
@@ -593,23 +654,13 @@ class BEC_10(BaseSystem):
         self.params['t_line'] = 'as' if self.params['t_line'] == 'as' or self.params['t_line'] == 'aS' else 's'
  
         # initial mode values as 1D list
-        u_0 = np.zeros(3, dtype=np.complex_).tolist()
+        iv_modes = np.zeros(3, dtype=np.complex_)
         # initial quadrature correlations
-        V_0 = np.zeros([6, 6], dtype=np.float_)
-        V_0[0][0] = 0.5
-        V_0[1][1] = 0.5
-        V_0[3][3] = 0.5
-        V_0[5][5] = 0.5
-        # convert to 1D list and concatenate all variables
-        iv = u_0 + [np.complex_(element) for element in V_0.flatten()]
-
-        # noise correlation matrix
-        D = np.zeros([6, 6], dtype=np.float_)
-        # optical mode
-        D[0][0] = eta_lp + mu * gamma_o / 2
-        D[1][1] = eta_lp + mu * gamma_o / 2
-        D[3][3] = gamma_m
-        D[5][5] = gamma_m
+        iv_corrs = np.zeros([6, 6], dtype=np.float_)
+        iv_corrs[0][0] = 0.5
+        iv_corrs[1][1] = 0.5
+        iv_corrs[3][3] = 0.5
+        iv_corrs[5][5] = 0.5
         
         # constant parameters
         c = [Delta_tilde, delta] + \
@@ -626,15 +677,15 @@ class BEC_10(BaseSystem):
         # # display condition for weak perturbations
         # logger.debug('hbar L_p^2 / 2 I + 2 g_tilde N={}, g_a^2 / Delta_a={}, 4 g_tilde N={}\n'.format(sc.hbar * L_p**2 / 2 / I + 2 * g_tilde * N, 2 * np.sqrt(2) * params[4] / np.sqrt(params[9]), 4 * g_tilde * N))
 
-        return iv, None, c
+        return iv_modes, iv_corrs, c
 
     def get_lifetimes(self, c):
         """Method to obtain the normalized lifetimes.
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
 
         Returns
         -------
@@ -653,21 +704,21 @@ class BEC_10(BaseSystem):
         return lieftimes
 
     def get_mode_rates(self, modes, c, t=None):
-        """Method to obtain the rates of the optical and mechanical modes.
+        """Method to obtain the rates of change of the modes.
 
         Parameters
         ----------
-        modes : list
-            Values of the modes.
-        params : list
-            Constants parameters.
+        modes : numpy.ndarray
+            Classical modes.
+        c : numpy.ndarray
+            Derived constants and controls.
         t : float
-            Time at which the rates are calculated.
+            Time at which the values are calculated.
 
         Returns
         -------
-        mode_rates : list
-            Rates of each mode.
+        mode_rates : numpy.ndarray
+            Rates of change of the modes.
         """
 
         # extract frequently used variables
@@ -710,81 +761,10 @@ class BEC_10(BaseSystem):
         # # alternate expression
         # dbeta_d_dt = - 1j * G / np.sqrt(2) * np.conjugate(alpha) * alpha - 2j * g_tilde * N * np.conjugate(betas[0]) - gamma_m * betas[1] - 1j * (omegas[1] + 2 * temp) * betas[1]
 
-        # mode rates
-        mode_rates = [dalpha_dt, dbeta_c_dt, dbeta_d_dt]
-
-        return mode_rates
+        return np.array([dalpha_dt, dbeta_c_dt, dbeta_d_dt], dtype=np.complex_)
         
-    def get_N_o_norms(self, params):
-        """Method to obtain the mean optical occupancy per oscillation.
-        
-        Parameters
-        ----------
-        params : list
-            Constant parameters of the system.
-        
-        Returns
-        -------
-        N_o_norms : list
-            Mean optical occupancies per oscillation.
-        """
-
-        # get mean optical occupancies
-        N_os, _ = self.get_mean_optical_occupancies(method='cubic' if 'cubic' in params[14] else 'basic')
-
-        # calculate mean optical occupancies per oscillation
-        N_o_norms = [N_o * params[7] / params[6] for N_o in N_os]
-
-        return N_o_norms
-        
-    def get_N_os(self, c):
-        """Method to obtain the mean optical occupancy.
-        
-        Parameters
-        ----------
-        params : list
-            Constant parameters of the system.
-        
-        Returns
-        -------
-        N_os : list
-            Mean optical occupancies.
-        """
-
-        # get mean optical occupancies
-        N_os, _ = self.get_mean_optical_occupancies()
-
-        return N_os
-
-    def get_params_steady_state(self, c):
-        r"""Method to obtain the arguments required to calculate the optical steady state.
-        
-        Parameters
-        ----------
-        params : list
-            Constant parameters of the system.
-        
-        Returns 
-        -------
-        eta_lc : float
-            Amplitude of the control laser.
-        Delta_tilde : float
-            Detuning of the laser.
-        gamma_o : float
-            Optical decay rate.
-        C : float
-            Coefficient of :math:`|\alpha_{s}|^{2}`.
-        """
-
-        # get effective values
-        _, _, _, C = self.get_effective_values(
-            c=c
-        )
-
-        return c[2], c[0], c[7], C
-    
-    def get_coeffs_N_o(self, c):
-        """Method to obtain coefficients of the polynomial in mean optical occupancy.
+    def get_modes_steady_state(self, c):
+        """Method to obtain the steady state modes.
         
         Parameters
         ----------
@@ -793,36 +773,8 @@ class BEC_10(BaseSystem):
         
         Returns 
         -------
-        coeffs : numpy.ndarray
-            Coefficients of the polynomial in mean optical occupancy.
-        """
-
-        # frequently used variables
-        A_l_norm, Delta_0_norm, kappa_norm, C = self.get_params_steady_state(
-            c=c
-        )
-        
-        # get coefficients
-        coeffs = np.zeros(2 * self.num_modes, dtype=np.float_)
-        coeffs[0] = 4.0 * C**2
-        coeffs[1] = 8.0 * C * Delta_0_norm
-        coeffs[2] = 4.0 * Delta_0_norm**2 + kappa_norm**2
-        coeffs[3] = - 4.0 * np.real(np.conjugate(A_l_norm) * A_l_norm)
-
-        return coeffs
-
-    def get_oss_modes(self, c):
-        """Method to obtain the steady state optical and mechanical position mode apmlitudes.
-        
-        Parameters
-        ----------
-        params : list
-            Constant parameters of the system.
-        
-        Returns 
-        -------
-        Modes : list
-            List of optical and mechanical mode amplitudes.
+        Modes : numpy.ndarray
+            Steady state modes.
         """
 
         # extract frequently used variables
@@ -845,7 +797,7 @@ class BEC_10(BaseSystem):
         Modes = list()
 
         # get mean optical occupancies
-        N_os, _ = self.get_mean_optical_occupancies()
+        N_os = self.get_mean_optical_occupancies()
         # for each mean optical occupancy
         for N_o in N_os:
             # calculate mode amplitudes
@@ -859,19 +811,68 @@ class BEC_10(BaseSystem):
             # append to list
             Modes.append([alpha, q_c, q_d])
 
-        return Modes
+        return np.array(Modes, dtype=np.complex_)
+
+    def get_N_o_norms(self, params):
+        """Method to obtain the mean optical occupancy per oscillation.
+        
+        Parameters
+        ----------
+        c : numpy.ndarray
+            Derived constants and controls.
+        
+        Returns
+        -------
+        N_o_norms : list
+            Mean optical occupancies per oscillation.
+        """
+
+        # get mean optical occupancies
+        N_os = self.get_mean_optical_occupancies()
+
+        # calculate mean optical occupancies per oscillation
+        N_o_norms = [N_o * params[7] / params[6] for N_o in N_os]
+
+        return N_o_norms
+
+    def get_params_steady_state(self, c):
+        r"""Method to obtain the parameters required to calculate the optical steady states.
+        
+        Parameters
+        ----------
+        c : numpy.ndarray
+            Derived constants and controls.
+        
+        Returns
+        -------
+        A_l_norm : float
+            Normalized amplitude of the laser.
+        Delta_0_norm : float
+            Normalized detuning of the laser.
+        kappa_norm : float
+            Normalized optical decay rate.
+        C : float
+            Coefficient of :math:`| \alpha_{s} |^{2}`.
+        """
+
+        # get effective values
+        _, _, _, C = self.get_effective_values(
+            c=c
+        )
+
+        return c[2], c[0], c[7], C
 
     def get_peaks(self, c):
         """Method to obtain the normalized peak positions.
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
 
         Returns
         -------
-        peaks : list
+        peaks : numpy.ndarray
             Normalized peak positions.
         """
 
@@ -881,7 +882,7 @@ class BEC_10(BaseSystem):
         )
 
         # get normalized peak positions
-        peaks = np.real(deltas).tolist()
+        peaks = np.real(deltas)
 
         return peaks
 
@@ -890,8 +891,8 @@ class BEC_10(BaseSystem):
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
 
         Returns
         -------
@@ -907,12 +908,14 @@ class BEC_10(BaseSystem):
         T = 20e-9
 
         # get effective values
-        A_mathcal, Omegas, omega_tildes, C = self.get_effective_values(
+        _, Omegas, _, C = self.get_effective_values(
             c=c
         )
 
         # get mean occupancy amplitude
-        alpha_ss, _ = self.get_mean_optical_amplitudes(method='cubic' if 'cubic' in t_oss_method else 'basic')
+        alpha_ss = self.get_modes_steady_state(
+            c=c
+        )[:, 0]
         alpha_s_sq = np.real(np.conjugate(alpha_ss[0]) * alpha_ss[0])
 
         # shot noise
@@ -933,8 +936,8 @@ class BEC_10(BaseSystem):
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
 
         Returns
         -------
@@ -959,35 +962,13 @@ class BEC_10(BaseSystem):
 
         return T
 
-    def get_transmission_resonance(self, params):
-        """Method to obtain the transmission at resonance using the analytical expression.
-        
-        Parameters
-        ----------
-        params : list
-            Constant parameters of the system.
-            
-        Returns
-        -------
-        T : float
-            Transmission.
-        """
-
-        # get cooperativity
-        C_mathcal = self.get_cooperativity(params)
-
-        # calculate transmission
-        T = (C_mathcal / (1 + C_mathcal))**2
-
-        return T
-
     def get_transmission_coeffs(self, c):
         """Method to obtain the transmission coefficient for the probe field of the system.
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
         
         Returns
         -------
@@ -1070,8 +1051,8 @@ class BEC_10(BaseSystem):
         
         Parameters
         ----------
-        params : list
-            Constant parameters of the system.
+        c : numpy.ndarray
+            Derived constants and controls.
 
         Returns
         -------
@@ -1095,3 +1076,27 @@ class BEC_10(BaseSystem):
         phi = np.angle(_t)
 
         return phi
+    
+    def get_transmission_resonance(self, c):
+        """Method to obtain the transmission at resonance using the analytical expression.
+        
+        Parameters
+        ----------
+        c : numpy.ndarray
+            Derived constants and controls.
+            
+        Returns
+        -------
+        T : float
+            Transmission.
+        """
+
+        # get cooperativity
+        C_mathcal = self.get_cooperativity(
+            c=c
+        )
+
+        # calculate transmission
+        T = (C_mathcal / (1 + C_mathcal))**2
+
+        return T

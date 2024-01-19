@@ -19,10 +19,11 @@ params = {
     'looper': {
         'show_progress' : True,
         'X'             : {
-            'var'   : 'theta',
-            'min'   : 0.0,
-            'max'   : 1.0,
-            'dim'   : 1001
+            'var'   : 'Omegas',
+            'idx'   : 1,
+            'min'   : 1.9,
+            'max'   : 2.1,
+            'dim'   : 2001
         }
     },
     'solver': {
@@ -54,11 +55,10 @@ params = {
         'type'                  : 'lines',
         'colors'                : ['k'] + [-1] * 2 + [0] * 2,
         'sizes'                 : [1] + [2] * 4,
-        'styles'                : ['--'] + ['--', '-'] * 2,
-        'x_label'               : '$\\omega_{b0} / \\theta / \\omega_{b0}$',
-        'x_ticks'               : [0.5 * i for i in range(3)],
-        'x_ticks_minor'         : [0.125 * i for i in range(9)],
-        'x_tick_labels'         : ['{:0.1f}'.format(0.5 * i) for i in range(3)],
+        'styles'                : ['--'] + ['-.', '-'] * 2,
+        'x_label'               : '$\\Omega_{v} / \\omega_{b0}$',
+        'x_ticks'               : [1.9, 1.95, 2.0, 2.05, 2.1],
+        'x_ticks_minor'         : [1.9 + i * 0.00625 for i in range(33)],
         'v_label'               : '$\\langle Q_{b}^{2} \\rangle_{\\mathrm{min}}$',
         'v_label_color'         : -1,
         'v_limits'              : [0.325, 0.675],
@@ -66,21 +66,20 @@ params = {
         'v_tick_position'       : 'left-in',
         'v_ticks'               : [0.4, 0.5, 0.6],
         'v_ticks_minor'         : [0.325 + i * 0.025 for i in range(14)],
-        'v_twin_label'          : '',
+        'v_twin_label'          : '$E_{N_{\\mathrm{max}}}$',
         'v_twin_label_color'    : 0,
         'v_twin_limits'         : [-0.015, 0.195],
         'v_twin_tick_color'     : 0,
-        'v_twin_tick_labels'    : [''] * 3,
         'v_twin_tick_position'  : 'right-in',
         'v_twin_ticks'          : [0.03, 0.09, 0.15],
         'v_twin_ticks_minor'    : [i * 0.015 for i in range(14)],
         'label_font_size'       : 24,
         'tick_font_size'        : 20,
-        'width'                 : 4.0,
+        'width'                 : 8.0,
         'height'                : 4.0,
         'annotations'           : [{
-            'text'  : '(b)',
-            'xy'    : [0.32, 0.84]
+            'text'  : '(a)',
+            'xy'    : [0.16, 0.84]
         }]
     }
 }
@@ -114,9 +113,9 @@ def func(system_params):
     return np.array([m_0, m_1], dtype=np.float_)
 
 if __name__ == '__main__':
-    # without voltage 
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.9b_A_vs=[50.0, 0.0, 0.0]'
-    params['system']['A_vs'] = [50.0, 0.0, 0.0]
+    # without mechanical frequency modulation
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.9a_theta=0.0'
+    params['system']['theta'] = 0.0
     looper_0 = run_loopers_in_parallel(
         looper_name='XLooper',
         func=func,
@@ -126,9 +125,9 @@ if __name__ == '__main__':
     )
     Sq_0, En_0 = np.transpose(looper_0.results['V'])
 
-    # with voltage modulation
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.9b_A_vs=[50.0, 50.0, 50.0]'
-    params['system']['A_vs'] = [50.0, 50.0, 50.0]
+    # with mechanical frequency modulation
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.9a_theta=0.5'
+    params['system']['theta'] = 0.5
     looper_1 = run_loopers_in_parallel(
         looper_name='XLooper',
         func=func,

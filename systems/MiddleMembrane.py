@@ -180,9 +180,9 @@ class MM_01(BaseSystem):
         """
 
         # extract frequently used parameters
-        alpha_0, alpha_m, alpha_p   = self.params['alphas']
-        beta_0, beta_m, beta_p      = self.params['betas']
-        g_norm                      = self.params['g_norm']
+        alpha_0, alpha_m, alpha_p = self.params['alphas']
+        beta_0, beta_m, beta_p = self.params['betas']
+        g_norm = self.params['g_norm']
         
         # normalized effective couplings
         G_0_norm = 2 * g_norm * (2 * alpha_0 * beta_0 + (alpha_m + alpha_p) * (beta_m + beta_p))

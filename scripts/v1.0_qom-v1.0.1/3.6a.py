@@ -15,16 +15,16 @@ from systems.BoseEinsteinCondensate import BEC_10
 params = {
     'looper': {
         'show_progress'     : True,
-        'file_path_prefix'  : 'data/v1.0-qom-v1.0.1/3.5a',
+        'file_path_prefix'  : 'data/v1.0_qom-v1.0.1/3.6a',
         'X'                 : {
             'var'   : 'delta',
-            'min'   : -0.5,
-            'max'   : 0.5,
+            'min'   : -0.2,
+            'max'   : 0.2,
             'dim'   : 10001
         },
         'Y'                 : {
             'var'   : 'L_p',
-            'val'   : [5, 4, 3, 2, 1]
+            'val'   : [0, 1]
         }
     },
     'system': {
@@ -54,59 +54,51 @@ params = {
         't_P_lc_norm'   : 'none'
     },
     'plotter': {
-        'type'              : 'lines_3d',
-        'palette'           : 'tab10',
-        'bins'              : 10,
-        'colors'            : [0, 2, 3, 5, 7],
-        'sizes'             : [2] * 5,
-        'styles'            : ['-', ':', '-.', '--', '-'],
+        'type'              : 'lines',
+        'colors'            : [0, -1],
+        'sizes'             : [2] * 2,
         'x_label'           : '$\\delta / \\Omega_{m}$',
-        'x_label_pad'       : 8,
-        'x_tick_pad'        : -2,
-        'x_tick_labels'     : [0.5, 1.0, 1.5],
-        'x_ticks'           : [-0.5, 0.0, 0.5],
-        'x_ticks_minor'     : [i * 0.25 - 0.5 for i in range(5)],
-        'y_label'           : '$L_{p}$',
-        'y_limits'          : [0.5, 5.5],
-        'y_label_pad'       : 24,
-        'y_tick_pad'        : 4,
-        'y_ticks'           : [1, 2, 3, 4, 5],
-        'y_ticks_minor'     : [1, 2, 3, 4, 5],
-        'v_label_pad'       : 7,
-        'v_label'           : '$T$',
-        'v_tick_pad'        : 6,
-        'v_ticks'           : [0.0, 0.5, 1.0],
-        'v_ticks_minor'     : [i * 0.1 for i in range(11)],
-        'view_aspect'       : [1.0, 1.75, 0.75],
-        'view_elevation'    : 32,
-        'view_rotation'     : -45,
+        'x_tick_labels'     : [0.8, 0.9, 1.0, 1.1, 1.2],
+        'x_ticks'           : [i * 0.1 - 0.2 for i in range(5)],
+        'x_ticks_minor'     : [i * 0.02 - 0.2 for i in range(21)],
+        'y_name'            : '$L_{p}$',
+        'v_label'           : '$\\phi$',
+        'v_limits'          : [-2.4, 2.4],
+        'v_ticks'           : [i - 2 for i in range(5)],
+        'v_ticks_minor'     : [i * 0.2 - 2.4 for i in range(25)],
+        'show_legend'       : True,
+        'legend_location'   : 'lower left',
+        'label_font_size'   : 24.0,
+        'legend_font_size'  : 24.0,
+        'tick_font_size'    : 20.0,
+        'width'             : 4.8,
+        'height'            : 4.2,
         'annotations'       : [{
             'text'  : '(a)',
-            'xy'    : (0.23, 0.72)
+            'xy'    : (0.225, 0.85)
         }],
-        'label_font_size'   : 24.0,
-        'tick_font_size'    : 20.0,
-        'height'            : 6.0,
-        'width'             : 6.5
     }
 }
 
-# function to obtain the transmission
-def func(system_params):
-    # intialize system
+# function to obtain the normalized transmission phase
+def func_transmission_phase_norm(system_params):
+    # initialize system
     system = BEC_10(
         params=system_params
     )
+    # extract parameters
     _, _, c = system.get_ivc()
-    # return transmission
-    return system.get_transmission(
+    # get transmission phase
+    phi = system.get_transmission_phase(
         c=c
     )
+    # return normalized value
+    return phi
 
 # looper
 looper = wrap_looper(
     looper_name='XYLooper',
-    func=func,
+    func=func_transmission_phase_norm,
     params=params['looper'],
     params_system=params['system'],
     plot=True,

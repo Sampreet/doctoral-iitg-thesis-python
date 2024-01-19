@@ -33,7 +33,7 @@ class Bi_00(BaseSystem):
         lambda          (*float*) normalized coupling strength of the optical channel :math:`\lambda`. Default is :math:`0.075`.
         n_ths           (*list*) thermal occupancies of the mechanical modes, :math:`\left[ n_{thL}, n_{thR} \right]`. Default is :math:`\left[ 0.005, 0.005 \right]`.
         omega_mL        (*float*) normalized frequency of the left mechanical mode :math:`\omega_{mL}`. Default is :math:`1.0`.
-        ========    ========================================================================
+        ============    ====================================================================
     cb_update : callable, optional
         Callback function to update status and progress, formatted as ``cb_update(status, progress, reset)``, where ``status`` is a string, ``progress`` is a float and ``reset`` is a boolean.
     """

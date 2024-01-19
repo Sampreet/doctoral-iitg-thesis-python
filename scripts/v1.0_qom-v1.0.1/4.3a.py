@@ -18,7 +18,7 @@ params = {
         'show_progress' : True,
         'cache'         : True,
         'ode_method'    : 'vode',
-        'indices'       : [(3, 3)],
+        'indices'       : [(2, 2)],
         't_min'         : 0.0,
         't_max'         : 200.0,
         't_dim'         : 2001
@@ -42,19 +42,19 @@ params = {
         'x_label'           : '$\\omega_{m} t$',
         'x_ticks'           : [i * 40 for i in range(6)],
         'x_ticks_minor'     : [i * 5 for i in range(41)],
-        'v_label'           : '$\\langle P^{2} \\rangle$',
+        'v_label'           : '$\\langle Q^{2} \\rangle$',
         'v_ticks'           : [i * 1 for i in range(5)],
         'v_ticks_minor'     : [i * 0.25 for i in range(17)],
         'show_legend'       : True,
-        'legend_labels'     : ['without RWA', 'with RWA', 'SQL'],
         'legend_location'   : 'upper left',
-        'height'            : 4.0,
-        'width'             : 7.2,
+        'legend_labels'     : ['without RWA', 'with RWA', 'SQL'],
         'label_font_size'   : 24,
         'legend_font_size'  : 24,
         'tick_font_size'    : 20,
+        'width'             : 7.2,
+        'height'            : 4.0,
         'annotations'       : [{
-            'text'  : '(b)',
+            'text'  : '(a)',
             'xy'    : (0.51, 0.85)
         }]
     }
@@ -70,13 +70,13 @@ system = MM_01(
 )
 
 # initialize solver
-solver = HLESolver(
+hle_solver = HLESolver(
     system=system,
     params=params['solver']
 )
 # get times and variances
-T = solver.get_times()
-M_0 = solver.get_corr_indices().transpose()[0]
+T = hle_solver.get_times()
+M_0 = hle_solver.get_corr_indices().transpose()[0]
 
 # initialize system with RWA
 params['system']['t_rwa'] = True
@@ -96,9 +96,7 @@ plotter = MPLPlotter(
     params=params['plotter']
 )
 plotter.update(
-    xs=T,
-    vs=[M_0, M_1, [0.5] * len(T)]
+    vs=[M_0, M_1, [0.5] * len(T)],
+    xs=T
 )
-plotter.show(
-    hold=True
-)
+plotter.show()

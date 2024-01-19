@@ -45,12 +45,13 @@ looper = wrap_looper(
     looper_name = 'XYLooper',
     func=func,
     params={
-        'show_progress' : True,
-        'X'             : {
+        'show_progress'     : True,
+        'file_path_prefix'  : 'data/v1.0_qom-v1.0.1/1.7b',
+        'X'                 : {
             'var'   : 'delta_norm',
             'val'   : deltas
         },
-        'Y'             : {
+        'Y'                 : {
             'var'   : 'A_l_norm',
             'val'   : A_ls
         }
@@ -90,13 +91,13 @@ looper = wrap_looper(
         'v_tick_pad'        : 2,
         'v_ticks'           : [0.0, 0.5, 1.0],
         'v_ticks_minor'     : [i * 0.25 for i in range(5)],
-        'height'            : 4.5,
+        'label_font_size'   : 24.0,
+        'tick_font_size'    : 20.0,
         'width'             : 4.2,
+        'height'            : 4.5,
         'view_aspect'       : [1.0, 1.5, 0.75],
         'view_elevation'    : 32,
         'view_rotation'     : -50,
-        'label_font_size'   : 24.0,
-        'tick_font_size'    : 20.0,
         'annotations'       : [{
             'text'  : '(b)',
             'xy'    : (0.1, 0.75)

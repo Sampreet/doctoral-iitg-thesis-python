@@ -15,7 +15,7 @@ from systems.BoseEinsteinCondensate import BEC_10
 params = {
     'looper': {
         'show_progress'     : True,
-        'file_path_prefix'  : 'data/v1.0-qom-v1.0.1/3.4a',
+        'file_path_prefix'  : 'data/v1.0_qom-v1.0.1/3.4a',
         'X'                 : {
             'var'   : 'delta',
             'min'   : -0.5,
@@ -80,6 +80,10 @@ params = {
         'v_tick_pad'        : 6,
         'v_ticks'           : [0.0, 0.5, 1.0],
         'v_ticks_minor'     : [i * 0.1 for i in range(11)],
+        'label_font_size'   : 24.0,
+        'tick_font_size'    : 20.0,
+        'height'            : 6.0,
+        'width'             : 6.5,
         'view_aspect'       : [1.0, 1.5, 0.75],
         'view_elevation'    : 32,
         'view_rotation'     : -50,
@@ -87,10 +91,6 @@ params = {
             'text'  : '(a)',
             'xy'    : (0.12, 0.72)
         }],
-        'label_font_size'   : 24.0,
-        'tick_font_size'    : 20.0,
-        'height'            : 6.0,
-        'width'             : 6.5
     }
 }
 

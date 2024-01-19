@@ -62,11 +62,11 @@ params = {
         'v_label_pad'       : 12,
         'v_tick_pad'        : 8,
         'v_ticks'           : [0.0, 0.2, 0.4],
-        'width'             : 4.8,
-        'height'            : 4.5,
         'label_font_size'   : 21.0,
         'tick_font_size'    : 18.0,
         'title_font_size'   : 21.0,
+        'width'             : 4.8,
+        'height'            : 4.5,
         'annotations'       : [{
             'text'  : '(b)',
             'xy'    : (0.175, 0.82)
@@ -108,6 +108,4 @@ for i in range(0, len(T), 10000):
     plotter.update(
         vs=Wigners[i, 0]
     )
-    plotter.show(
-        hold=True
-    )
+    plotter.show()

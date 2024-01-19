@@ -16,7 +16,7 @@ from systems.BoseEinsteinCondensate import BEC_10
 params = {
     'looper': {
         'show_progress'     : True,
-        'file_path_prefix'  : 'data/v1.0-qom-v1.0.1/3.7b',
+        'file_path_prefix'  : 'data/v1.0_qom-v1.0.1/3.7b',
         'grad'              : True,
         'X'                 : {
             'var'   : 'delta',
@@ -78,11 +78,11 @@ params = {
         'v_ticks_minor'     : [-i * 10 for i in range(16)],
         'show_legend'       : True,
         'legend_location'   : 'lower left',
-        'legend_font_size'  : 24.0,
         'label_font_size'   : 24.0,
+        'legend_font_size'  : 24.0,
         'tick_font_size'    : 20.0,
-        'height'            : 4.8,
         'width'             : 6.0,
+        'height'            : 4.8,
         'annotations'       : [{
             'text'  : '(b)',
             'xy'    : (0.025, 0.875)
@@ -90,7 +90,7 @@ params = {
     }
 }
 
-# function to calculate normalized transmission phase
+# function to obtain the normalized transmission phase
 def func_transmission_phase_norm(system_params):
     # initialize system
     system = BEC_10(
@@ -111,7 +111,7 @@ def func_transmission_phase_norm(system_params):
 
 if __name__ == '__main__':
     # looper
-    looper = wrap_looper(
+    looper = run_loopers_in_parallel(
         looper_name='XYZLooper',
         func=func_transmission_phase_norm,
         params=params['looper'],

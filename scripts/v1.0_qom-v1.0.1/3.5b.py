@@ -16,7 +16,7 @@ from systems.BoseEinsteinCondensate import BEC_10
 params = {
     'looper': {
         'show_progress'     : True,
-        'file_path_prefix'  : 'data/v1.0-qom-v1.0.1/3.5b',
+        'file_path_prefix'  : 'data/v1.0_qom-v1.0.1/3.5b',
         'X'                 : {
             'var'   : 'delta',
             'min'   : -4.0,
@@ -77,11 +77,11 @@ params = {
         'v_ticks_minor'     : [i * 0.25 for i in range(18)],
         'show_legend'       : True,
         'legend_location'   : 'lower right',
-        'legend_font_size'  : 24,
         'label_font_size'   : 24,
+        'legend_font_size'  : 24,
         'tick_font_size'    : 20,
-        'height'            : 3.8,
         'width'             : 6.0,
+        'height'            : 3.8,
         'annotations'       : [{
             'text'  : '(b)',
             'xy'    : (0.17, 0.84)
@@ -89,7 +89,7 @@ params = {
     }
 }
 
-# function to calculate transmission
+# function to obtain the transmission
 def func_transmission(system_params):
     # initialize system
     system = BEC_10(
@@ -104,7 +104,7 @@ def func_transmission(system_params):
 
 if __name__ == '__main__':
     # looper
-    looper = wrap_looper(
+    looper = run_loopers_in_parallel(
         looper_name='XYZLooper',
         func=func_transmission,
         params=params['looper'],
@@ -142,5 +142,8 @@ if __name__ == '__main__':
         'X': xs,
         'Y': ys
     }, params=params['plotter'])
-    plotter.update(xs=xs, vs=ddelta_norms)
-    plotter.show(hold=True)
+    plotter.update(
+        vs=ddelta_norms,
+        xs=xs
+    )
+    plotter.show()

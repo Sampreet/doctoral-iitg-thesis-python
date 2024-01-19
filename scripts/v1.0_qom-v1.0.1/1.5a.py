@@ -43,11 +43,11 @@ params = {
         'v_label'           : '$\\bar{p}$',
         'v_ticks'           : list(range(-40, 41, 20)),
         'v_ticks_minor'     : list(range(-40, 41, 5)),
-        'width'             : 4.8,
-        'height'            : 4.7,
         'label_font_size'   : 24.0,
         'legend_font_size'  : 20.0,
         'tick_font_size'    : 20.0,
+        'width'             : 4.8,
+        'height'            : 4.7,
         'annotations'       : [{
             'text'  : '(a)',
             'xy'    : (0.27, 0.83)

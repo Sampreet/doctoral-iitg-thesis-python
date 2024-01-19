@@ -54,11 +54,11 @@ params = {
             'without modulation',
         ],
         'legend_location'   : 'upper left',
-        'width'             : 4.8,
-        'height'            : 4.0,
         'label_font_size'   : 24.0,
         'legend_font_size'  : 20.0,
         'tick_font_size'    : 20.0,
+        'width'             : 4.8,
+        'height'            : 4.0,
         'annotations'       : [{
             'text'  : '(b)',
             'xy'    : (0.81, 0.83)
@@ -75,14 +75,14 @@ system = EM_01(
 )
 
 # initialize solver
-solver = HLESolver(
+hle_solver = HLESolver(
     system=system,
     params=params['solver']
 )
 # get times
-T = solver.get_times()
-Modes = solver.get_modes()
-Corrs = solver.get_corrs()
+T = hle_solver.get_times()
+Modes = hle_solver.get_modes()
+Corrs = hle_solver.get_corrs()
 # variances
 vs_0 = Corrs[:, 2, 2]
 # entanglement
@@ -98,14 +98,14 @@ system = EM_00(
 )
 
 # initialize solver
-solver = HLESolver(
+hle_solver = HLESolver(
     system=system,
     params=params['solver']
 )
 # get times
-T = solver.get_times()
-Modes = solver.get_modes()
-Corrs = solver.get_corrs()
+T = hle_solver.get_times()
+Modes = hle_solver.get_modes()
+Corrs = hle_solver.get_corrs()
 # variances
 vs_2 = Corrs[:, 2, 2]
 # entanglement

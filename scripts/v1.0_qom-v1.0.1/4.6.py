@@ -5,6 +5,7 @@ import sys
 
 # qom modules
 from qom.solvers.deterministic import HLESolver
+from qom.solvers.measure import QCMSolver
 from qom.ui.plotters import MPLPlotter
 from qom.utils.loopers import run_loopers_in_parallel, wrap_looper
 
@@ -22,18 +23,27 @@ params = {
             'min'   : 75,
             'max'   : 225,
             'dim'   : 301
+        },
+        'Y'             : {
+            'var'   : 'ns',
+            'idx'   : 1,
+            'min'   : 1e-3,
+            'max'   : 1e5,
+            'dim'   : 81,
+            'scale' : 'log'
         }
     },
     'solver': {
         'show_progress' : False,
         'cache'         : True,
         'ode_method'    : 'vode',
-        'indices'       : [(2, 2), (3, 3)],
+        'measure_codes' : ['entan_ln'],
+        'indices'       : (0, 1),
         't_min'         : 0.0,
         't_max'         : 1000.0,
         't_dim'         : 10001,
         't_index_min'   : 9371,
-        't_index_max'   : 10000
+        't_index_max'   : 10001
     },
     'system': {
         'alphas'        : [2.0, 0.2, 0.2],
@@ -48,39 +58,40 @@ params = {
     },
     'plotter': {
         'type'              : 'lines',
-        'colors'            : [-1, -1, 'k', 0, 0, 'k'],
-        'sizes'             : [2.0, 2.0, 1.0] * 2 ,
-        'styles'            : ['-', '-.', '--', '-', '-.', ':'],
-        'x_label'           : '$G_{1} / G_{0}$',
-        'x_ticks'           : [i * 0.1 + 0.5 for i in range(6)],
-        'x_ticks_minor'     : [i * 0.025 + 0.5 for i in range(21)],
-        'v_label'           : '$- 10 \\mathrm{log}_{10} [ \\langle \\tilde{Q}^{2} \\rangle ]$',
+        'colors'            : [-1, -1, 'k', 0, 0],
+        'sizes'             : [2.0] * 2 + [1.0] + [2.0] * 2,
+        'styles'            : ['-', '-.', '--', '-', '-.'],
+        'x_label'           : '$n_{b}$',
+        'x_tick_labels'     : ['$10^{' + str(i - 3) + '}$' for i in range(9)],
+        'x_ticks'           : [10**(i - 3) for i in range(9)],
+        'x_ticks_minor'     : sum([[10**(i - 3) * (j + 2) for i in range(8)] for j in range(7)], []),
+        'x_scale'           : 'log',
+        'v_label'           : '$- 10 \\mathrm{log}_{10} [ \\langle \\tilde{Q}^{2} \\rangle_{\\mathrm{min}} ]$',
         'v_label_color'     : -1,
         'v_tick_color'      : -1,
         'v_ticks'           : [i * 4 for i in range(6)],
         'v_ticks_minor'     : [i * 2 for i in range(11)],
-        'v_twin_label'      : '$\\langle \\tilde{\\beta}^{\\dagger} \\tilde{\\beta} \\rangle$',
-        'v_twin_scale'      : 'log',
         'v_twin_label_color': 0,
         'v_twin_tick_color' : 0,
-        'v_twin_tick_labels': ['$10^{' + str(i * 2 - 4) + '}$' for i in range(6)],
-        'v_twin_ticks'      : [10**(i * 2 - 4) for i in range(6)],
-        'v_twin_ticks_minor': [10.0**(i * 2 - 3) for i in range(11)],
+        'v_twin_label'      : '$E_{N_{\\mathrm{max}}}$',
+        'v_twin_tick_labels': ['{:0.1f}'.format(i * 0.1) for i in range(6)],
+        'v_twin_ticks'      : [i * 0.1 for i in range(6)],
+        'v_twin_ticks_minor': [i * 0.05 for i in range(11)],
         'show_legend'       : True,
         'legend_labels'     : [
-            '$n_{b} = 10$',
-            '$n_{b} = 1000$'
+            '$\\kappa = 0.1 \\omega_{m}$',
+            '$\\kappa = 1.0 \\omega_{m}$'
         ],
-        'legend_location'   : 'upper left',
-        'height'            : 4.0,
-        'width'             : 8.0,
+        'legend_location'   : 'upper right',
         'label_font_size'   : 24,
         'legend_font_size'  : 24,
-        'tick_font_size'    : 20
+        'tick_font_size'    : 20,
+        'height'            : 4.0,
+        'width'             : 8.0
     }
 }
 
-# function to calculate the ratio and variance
+# function to calculate the ratio and entanglement
 def func_rat_var(system_params):
     # update parameters
     val = system_params['beta_pm_sum']
@@ -101,16 +112,15 @@ def func_rat_var(system_params):
     )
 
     # get mechanical position variance
-    var = np.min(HLESolver(
+    var = np.mean(HLESolver(
         system=system,
         params=params['solver']
-    ).get_corr_indices()[:, 0])
+    ).get_corrs()[:, 2, 2])
 
-    # update results
-    return np.array([rat, var], dtype=np.float_)
+    return np.array([rat, var])
 
-# function to calculate the ratio and variance
-def func_rat_n_beta(system_params):
+# function to calculate the ratio and entanglement
+def func_rat_entan_ln(system_params):
     # update parameters
     val = system_params['beta_pm_sum']
     system_params['betas'][1] = val / 2.0
@@ -129,69 +139,70 @@ def func_rat_n_beta(system_params):
         c=c
     )
 
-    # get mechanical position and momentum variances
-    var_q, var_p = np.min(HLESolver(
+    # get modes, correlations and times
+    Modes, Corrs = HLESolver(
         system=system,
         params=params['solver']
-    ).get_corr_indices(), axis=0)
+    ).get_modes_corrs()
+    # get entanglement
+    eln = np.mean(QCMSolver(
+        Modes=Modes,
+        Corrs=Corrs,
+        params=params['solver']
+    ).get_measures(), axis=0)[0]
 
-    # calculate hyperbolic angles
-    r = np.arctanh(rat)
-    chr = np.cosh(r)
-    shr = np.sinh(r)
-
-    # get phonon number in the Bogoluibov mode
-    n_beta = (chr**2 + shr**2) * (var_q + var_p - 1) / 2.0 + shr**2 + chr * shr * (var_q - var_p)
-
-    # update results
-    return np.array([rat, n_beta], dtype=np.float_)
+    return np.array([rat, eln])
 
 if __name__ == '__main__':
-    # variance with low thermal phonons
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.4_var_n=10.0'
-    params['system']['ns'][1] = 10.0
+    # low kappa
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.6_var_kappa=0.1'
+    params['system']['kappa_norm'] = 0.1
     looper = run_loopers_in_parallel(
-        looper_name='XLooper',
+        looper_name='XYLooper',
         func=func_rat_var,
         params=params['looper'],
         params_system=params['system'],
         plot=False
     )
-    rats, vars_0_rwa = np.transpose(looper.results['V'])
-    # variance with high thermal phonons
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.4_var_n=1000.0'
-    params['system']['ns'][1] = 1000.0
-    looper = run_loopers_in_parallel(
-        looper_name='XLooper',
-        func=func_rat_var,
-        params=params['looper'],
-        params_system=params['system'],
-        plot=False
-    )
-    _, vars_0_wrwa = np.transpose(looper.results['V'])
+    xs = looper.axes['Y']['val']
+    vars_0 = np.min(looper.results['V'], axis=1).transpose()[1]
 
-    # occupancy with low thermal phonons
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.4_beta_n=10.0'
-    params['system']['ns'][1] = 10.0
+    # high kappa
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.6_var_kappa=1.0'
+    params['system']['kappa_norm'] = 1.0
     looper = run_loopers_in_parallel(
-        looper_name='XLooper',
-        func=func_rat_n_beta,
+        looper_name='XYLooper',
+        func=func_rat_var,
         params=params['looper'],
         params_system=params['system'],
         plot=False
     )
-    _, n_betas_0 = np.transpose(looper.results['V'])
-    # occupancy with high thermal phonons
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.4_beta_n=1000.0'
-    params['system']['ns'][1] = 1000.0
+    vars_1 = np.min(looper.results['V'], axis=1).transpose()[1]
+    
+    # low kappa
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.6_entan_kappa=0.1'
+    params['system']['kappa_norm'] = 0.1
     looper = run_loopers_in_parallel(
-        looper_name='XLooper',
-        func=func_rat_n_beta,
+        looper_name='XYLooper',
+        func=func_rat_entan_ln,
         params=params['looper'],
         params_system=params['system'],
         plot=False
     )
-    _, n_betas_1 = np.transpose(looper.results['V'])
+    xs = looper.axes['Y']['val']
+    elns_0 = np.max(looper.results['V'], axis=1).transpose()[1]
+
+    # high kappa
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.6_entan_kappa=1.0'
+    params['system']['kappa_norm'] = 1.0
+    looper = run_loopers_in_parallel(
+        looper_name='XYLooper',
+        func=func_rat_entan_ln,
+        params=params['looper'],
+        params_system=params['system'],
+        plot=False
+    )
+    elns_1 = np.max(looper.results['V'], axis=1).transpose()[1]
 
     # plotter
     plotter = MPLPlotter(
@@ -199,13 +210,11 @@ if __name__ == '__main__':
         params=params['plotter']
     )
     plotter.update(
-        xs=rats,
-        vs=- 10 * np.log10([vars_0_rwa, vars_0_wrwa, [0.5] * len(vars_0_rwa)])
+        vs=- 10 * np.log10([vars_0, vars_1, [0.5] * len(vars_0)]),
+        xs=xs
     )
     plotter.update_twin_axis(
-        vs=[n_betas_0, n_betas_1, [1.0] * len(vars_0_rwa)],
-        xs=rats
+        vs=[elns_0, elns_1],
+        xs=xs
     )
-    plotter.show(
-        hold=True
-    )
+    plotter.show()

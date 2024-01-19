@@ -4,7 +4,7 @@ import sys
 
 # qom modules
 from qom.ui.plotters import MPLPlotter
-from qom.utils.loopers import wrap_looper, run_loopers_in_parallel
+from qom.utils.loopers import wrap_looper
 
 # add path to local libraries
 sys.path.append(os.path.abspath(os.path.join('.')))
@@ -57,11 +57,11 @@ params = {
             '$g_{0} = 0.006 \\omega_{m}$'
         ],
         'legend_range'      : [4, 8],
-        'width'             : 8.0,
-        'height'            : 5.2,
         'label_font_size'   : 24.0,
         'legend_font_size'  : 20.0,
         'tick_font_size'    : 20.0,
+        'width'             : 8.0,
+        'height'            : 5.2,
         'vertical_spans'    : [{
             'limits': (-0.325, -0.210),
             'color' : 20,
@@ -85,23 +85,22 @@ def func_moo(system_params):
     
     return N_os
 
-if __name__ == '__main__':
-    # wrap looper
-    looper = run_loopers_in_parallel(
-        looper_name='XYLooper',
-        func=func_moo,
-        params=params['looper'],
-        params_system=params['system']
-    )
+# wrap looper
+looper = wrap_looper(
+    looper_name='XYLooper',
+    func=func_moo,
+    params=params['looper'],
+    params_system=params['system']
+)
 
-    # plotter
-    plotter = MPLPlotter(
-        axes={},
-        params=params['plotter']
-    )
-    V = looper.results['V']
-    plotter.update(
-        vs=[[V[2][j][i] for j in range(len(V[2]))] for i in range(1, 3)] + [[V[3][j][i] for j in range(len(V[3]))] for i in range(1, 3)] + [[V[i][j][0] for j in range(len(V[i]))] for i in range(4)],
-        xs=looper.results['X'][0]
-    )
-    plotter.show()
+# plotter
+plotter = MPLPlotter(
+    axes={},
+    params=params['plotter']
+)
+V = looper.results['V']
+plotter.update(
+    vs=[[V[2][j][i] for j in range(len(V[2]))] for i in range(1, 3)] + [[V[3][j][i] for j in range(len(V[3]))] for i in range(1, 3)] + [[V[i][j][0] for j in range(len(V[i]))] for i in range(4)],
+    xs=looper.results['X'][0]
+)
+plotter.show()

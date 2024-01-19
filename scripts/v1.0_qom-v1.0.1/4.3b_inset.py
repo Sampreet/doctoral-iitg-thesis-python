@@ -46,9 +46,9 @@ params = {
         'v_limits'      : [0.5, 1.1],
         'v_ticks'       : [0.6, 0.8, 1.0],
         'v_ticks_minor' : [i * 0.05 + 0.5 for i in range(13)],
-        'height'        : 2.0,
-        'width'         : 2.5,
         'tick_font_size': 20,
+        'height'        : 2.0,
+        'width'         : 2.5
     }
 }
 
@@ -87,9 +87,7 @@ plotter = MPLPlotter(
     params=params['plotter']
 )
 plotter.update(
-    xs=T,
-    vs=[M_0, M_1, [0.5] * len(T)]
+    vs=[M_0, M_1, [0.5] * len(T)],
+    xs=T
 )
-plotter.show(
-    hold=True
-)
+plotter.show()

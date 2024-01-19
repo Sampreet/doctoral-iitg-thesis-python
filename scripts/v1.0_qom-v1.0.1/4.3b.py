@@ -18,12 +18,10 @@ params = {
         'show_progress' : True,
         'cache'         : True,
         'ode_method'    : 'vode',
-        'indices'       : [(2, 2)],
+        'indices'       : [(3, 3)],
         't_min'         : 0.0,
         't_max'         : 200.0,
-        't_dim'         : 2001,
-        't_index_min'   : 1900,
-        't_index_max'   : 2001
+        't_dim'         : 2001
     },
     'system': {
         'alphas'        : [2.0, 0.2, 0.2],
@@ -37,18 +35,28 @@ params = {
         't_rwa'         : True
     },
     'plotter': {
-        'type'          : 'lines',
-        'colors'        : [0, -1, 'k'],
-        'sizes'         : [2.0] * 2 + [1.0],
-        'styles'        : ['-', '-', '--'],
-        'x_ticks'       : [190, 195, 200],
-        'x_ticks_minor' : [i * 1 + 190 for i in range(11)],
-        'v_limits'      : [0.2, 0.8],
-        'v_ticks'       : [0.3, 0.5, 0.7],
-        'v_ticks_minor' : [i * 0.05 + 0.2 for i in range(13)],
-        'height'        : 2.0,
-        'width'         : 2.5,
-        'tick_font_size': 20,
+        'type'              : 'lines',
+        'colors'            : [0, -1, 'k'],
+        'sizes'             : [2.0] * 2 + [1.0],
+        'styles'            : ['-', '-', '--'],
+        'x_label'           : '$\\omega_{m} t$',
+        'x_ticks'           : [i * 40 for i in range(6)],
+        'x_ticks_minor'     : [i * 5 for i in range(41)],
+        'v_label'           : '$\\langle P^{2} \\rangle$',
+        'v_ticks'           : [i * 1 for i in range(5)],
+        'v_ticks_minor'     : [i * 0.25 for i in range(17)],
+        'show_legend'       : True,
+        'legend_labels'     : ['without RWA', 'with RWA', 'SQL'],
+        'legend_location'   : 'upper left',
+        'label_font_size'   : 24,
+        'legend_font_size'  : 24,
+        'tick_font_size'    : 20,
+        'height'            : 4.0,
+        'width'             : 7.2,
+        'annotations'       : [{
+            'text'  : '(b)',
+            'xy'    : (0.51, 0.85)
+        }]
     }
 }
 
@@ -61,11 +69,12 @@ system = MM_01(
     params=params['system']
 )
 
-# get mechanical position variances
+# initialize solver
 hle_solver = HLESolver(
     system=system,
     params=params['solver']
 )
+# get times and variances
 T = hle_solver.get_times()
 M_0 = hle_solver.get_corr_indices().transpose()[0]
 
@@ -75,7 +84,7 @@ system = MM_01(
     params=params['system']
 )
 
-# get mechanical position variances
+# get variances
 M_1 = HLESolver(
     system=system,
     params=params['solver']
@@ -87,9 +96,7 @@ plotter = MPLPlotter(
     params=params['plotter']
 )
 plotter.update(
-    xs=T,
-    vs=[M_0, M_1, [0.5] * len(T)]
+    vs=[M_0, M_1, [0.5] * len(T)],
+    xs=T
 )
-plotter.show(
-    hold=True
-)
+plotter.show()

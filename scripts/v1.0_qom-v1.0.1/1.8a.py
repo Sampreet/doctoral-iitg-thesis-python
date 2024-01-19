@@ -16,7 +16,7 @@ from systems.EndMirror import EM_00
 params = {
     'looper': {
         'show_progress'     : True,
-        'file_path_prefix'  : 'data/v1.0-qom-v1.0.1/1.8a',
+        'file_path_prefix'  : 'data/v1.0_qom-v1.0.1/1.8a',
         'X'                 : {
             'var'   : 'Delta_0_norm',
             'min'   : -1.5,
@@ -62,11 +62,11 @@ params = {
         'cbar_title'        : '$10^{2} \\times E_{N}$',
         'cbar_tick_labels'  : [0, 2, 4, 6],
         'cbar_ticks'        : [0.0, 0.02, 0.04, 0.06],
-        'width'             : 4.8,
-        'height'            : 4.5,
         'label_font_size'   : 24.0,
         'tick_font_size'    : 20.0,
         'title_font_size'   : 24.0,
+        'width'             : 4.8,
+        'height'            : 4.5,
         'annotations'       : [{
             'text'          : 'un-\nstable',
             'xy'            : (0.655, 0.73),

@@ -78,11 +78,11 @@ params = {
             '$n_{b} = 1000$'
         ],
         'legend_location'   : 'upper right',
-        'height'            : 4.0,
-        'width'             : 8.0,
         'label_font_size'   : 24,
         'legend_font_size'  : 24,
-        'tick_font_size'    : 20
+        'tick_font_size'    : 20,
+        'height'            : 4.0,
+        'width'             : 8.0
     }
 }
 
@@ -117,7 +117,7 @@ def func_rat_var(system_params):
 
 if __name__ == '__main__':
     # low thermal phonons
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.5_n=10.0'
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.5_n=10.0'
     params['system']['ns'][1] = 10.0
     looper = run_loopers_in_parallel(
         looper_name='XYLooper',
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     vs_2 = np.transpose(looper.results['V'])[0, _idxs_0, 0]
 
     # high thermal phonons
-    params['looper']['file_path_prefix'] = 'data/v1.0-qom-v1.0.1/4.5_n=1000.0'
+    params['looper']['file_path_prefix'] = 'data/v1.0_qom-v1.0.1/4.5_n=1000.0'
     params['system']['ns'][1] = 1000.0
     looper = run_loopers_in_parallel(
         looper_name='XYLooper',
@@ -158,6 +158,4 @@ if __name__ == '__main__':
         vs=[vs_2, vs_3, [1.0] * len(vs_0)],
         xs=xs
     )
-    plotter.show(
-        hold=True
-    )
+    plotter.show()

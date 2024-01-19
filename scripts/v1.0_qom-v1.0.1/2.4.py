@@ -16,7 +16,7 @@ from systems.Unidirectional import Uni_00
 params = {
     'looper': {
         'show_progress'     : True,
-        'file_path_prefix'  :'data/v1.0-qom-v1.0.1/2.4',
+        'file_path_prefix'  : 'data/v1.0_qom-v1.0.1/2.4',
         'X'                 : {
             'var'   : 'delta',
             'min'   : 0.00,

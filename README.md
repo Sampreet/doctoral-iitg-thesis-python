@@ -1,9 +1,10 @@
-# Macroscopic Quantum Phenomena in Hybrid Optomechanical Systems
+# Macroscopic Quantum Phenomena in Hybrid Optomechanical Systems: A Theoretical Exploration
 
 [![Thesis Version](https://img.shields.io/badge/thesis-1.0-red?style=for-the-badge)](#)
 [![Toolbox Version](https://img.shields.io/badge/qom-v1.0.1-red?style=for-the-badge)](https://sampreet.github.io/qom-docs/v1.0.1)
+[![Last Updated](https://img.shields.io/github/last-commit/sampreet/doctoral-iitg-thesis-python?style=for-the-badge)](https://github.com/sampreet/doctoral-iitg-thesis-python/blob/master/CHANGELOG.md)
 
-> A collection of all scripts for the work.
+> Python files for the Ph.D. thesis submitted to IIT Guwahati.
 
 ## Structure of the Repository
 
